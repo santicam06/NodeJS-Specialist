@@ -1,0 +1,205 @@
+🤔 PROCESSING YOUR QUESTION...
+Embeddings PACK #1 pushed. 
+
+Embedding function says —TOTAL EMBEDDINGS PRODUCED: 1
+
+
+TOTAL RESULTS FOUND FOR QUESTION: 5
+
+
+Result #1:
+
+-ID: C:\Users\camac\OneDrive\Desktop\Courses\AIP444\GitHub\AIP444-Seneca\labs\lab-07\docs\esm.md-36
+-METADATA: {"breadcrumb":"Modules: ECMAScript modules > Loaders","heading":"Loaders","source":"C:\\Users\\camac\\OneDrive\\Desktop\\Courses\\AIP444\\GitHub\\AIP444-Seneca\\labs\\lab-07\\docs\\esm.md"}
+-COSINE SIMILARITY: 0.44536495
+
+
+Result #2:
+
+-ID: C:\Users\camac\OneDrive\Desktop\Courses\AIP444\GitHub\AIP444-Seneca\labs\lab-07\docs\module.md-26
+-METADATA: {"heading":"Synchronous `load(url, context, nextLoad)`","source":"C:\\Users\\camac\\OneDrive\\Desktop\\Courses\\AIP444\\GitHub\\AIP444-Seneca\\labs\\lab-07\\docs\\module.md","breadcrumb":"Modules: `node:module` API > Customization Hooks > Synchronous customization hooks > Synchronous `load(url, context, nextLoad)`"}
+-COSINE SIMILARITY: 0.46323383
+
+
+Result #3:
+
+-ID: C:\Users\camac\OneDrive\Desktop\Courses\AIP444\GitHub\AIP444-Seneca\labs\lab-07\docs\module.md-20
+-METADATA: {"source":"C:\\Users\\camac\\OneDrive\\Desktop\\Courses\\AIP444\\GitHub\\AIP444-Seneca\\labs\\lab-07\\docs\\module.md","heading":"Registering hooks before application code runs programmatically","breadcrumb":"Modules: `node:module` API > Customization Hooks > Synchronous customization hooks > Registration of synchronous customization hooks > Registering hooks before application code runs programmatically"}
+-COSINE SIMILARITY: 0.47685617
+
+
+Result #4:
+
+-ID: C:\Users\camac\OneDrive\Desktop\Courses\AIP444\GitHub\AIP444-Seneca\labs\lab-07\docs\module.md-42
+-METADATA: {"heading":"Import maps","breadcrumb":"Modules: `node:module` API > Customization Hooks > Examples > Import maps","source":"C:\\Users\\camac\\OneDrive\\Desktop\\Courses\\AIP444\\GitHub\\AIP444-Seneca\\labs\\lab-07\\docs\\module.md"}
+-COSINE SIMILARITY: 0.48060453
+
+
+Result #5:
+
+-ID: C:\Users\camac\OneDrive\Desktop\Courses\AIP444\GitHub\AIP444-Seneca\labs\lab-07\docs\module.md-38
+-METADATA: {"heading":"Transpilation","source":"C:\\Users\\camac\\OneDrive\\Desktop\\Courses\\AIP444\\GitHub\\AIP444-Seneca\\labs\\lab-07\\docs\\module.md","breadcrumb":"Modules: `node:module` API > Customization Hooks > Examples > Transpilation"}
+-COSINE SIMILARITY: 0.50525707
+
+
+EXTRACTING INFO IN RESULT #1: for XML.
+
+-SOURCE: C:\Users\camac\OneDrive\Desktop\Courses\AIP444\GitHub\AIP444-Seneca\labs\lab-07\docs\esm.md
+-BREADCRUMB: Modules: ECMAScript modules > Loaders
+-HEADING: Loaders
+-DOCUMENT: Modules: ECMAScript modules > Loaders
+
+The former Loaders documentation is now at
+[Modules: Customization hooks][Module customization hooks].
+
+
+CONVERTING DOCUMENT TO XML...
+
+
+EXTRACTING INFO IN RESULT #2: for XML.
+
+-SOURCE: C:\Users\camac\OneDrive\Desktop\Courses\AIP444\GitHub\AIP444-Seneca\labs\lab-07\docs\module.md
+-BREADCRUMB: Modules: `node:module` API > Customization Hooks > Synchronous customization hooks > Synchronous `load(url, context, nextLoad)`
+-HEADING: Synchronous `load(url, context, nextLoad)`
+-DOCUMENT: Modules: `node:module` API > Customization Hooks > Synchronous customization hooks > Synchronous `load(url, context, nextLoad)`
+
+* `url` {string} The URL returned by the `resolve` chain
+* `context` {Object}
+  * `conditions` {string\[]} Export conditions of the relevant `package.json`
+  * `format` {string|null|undefined} The format optionally supplied by the
+    `resolve` hook chain. This can be any string value as an input; input values do not need to
+    conform to the list of acceptable return values described below.
+  * `importAttributes` {Object}
+* `nextLoad` {Function} The subsequent `load` hook in the chain, or the
+  Node.js default `load` hook after the last user-supplied `load` hook
+  * `url` {string}
+  * `context` {Object|undefined} When omitted, defaults are provided. When provided, defaults are
+    merged in with preference to the provided properties. In the default `nextLoad`, if
+    the module pointed to by `url` does not have explicit module type information,
+    `context.format` is mandatory.
+    
+* Returns: {Object}
+  * `format` {string} One of the acceptable module formats listed [below][accepted final formats].
+  * `shortCircuit` {undefined|boolean} A signal that this hook intends to
+    terminate the chain of `load` hooks. **Default:** `false`
+  * `source` {string|ArrayBuffer|TypedArray} The source for Node.js to evaluate
+
+The `load` hook provides a way to define a custom method for retrieving the
+source code of a resolved URL. This would allow a loader to potentially avoid
+reading files from disk. It could also be used to map an unrecognized format to
+a supported one, for example `yaml` to `module`.
+
+```mjs
+import { registerHooks } from &apos;node:module&apos;;
+import { Buffer } from &apos;node:buffer&apos;;
+
+function load(url, context, nextLoad) {
+  // The hook can skip default loading and provide a custom source code.
+  if (url === &apos;special-module&apos;) {
+    return {
+      source: &apos;export const special = 42;&apos;,
+      format: &apos;module&apos;,
+      shortCircuit: true,  // This is mandatory if nextLoad() is not called.
+    };
+  }
+
+  // It&apos;s possible to modify the source code loaded by the next - possibly default - step,
+  // for example, replacing &apos;foo&apos; with &apos;bar&apos; in the source code of the module.
+  const result = nextLoad(url, context);
+  const source = typeof result.source === &apos;string&apos; ?
+    result.source : Buffer.from(result.source).toString(&apos;utf8&apos;);
+  return {
+    source: source.replace(/foo/g, &apos;bar&apos;),
+    ...result,
+  };
+}
+
+registerHooks({ resolve });
+```
+
+In a more advanced scenario, this can also be used to transform an unsupported
+source to a supported one (see [Examples](#examples) below).
+
+
+CONVERTING DOCUMENT TO XML...
+
+
+EXTRACTING INFO IN RESULT #3: for XML.
+
+-SOURCE: C:\Users\camac\OneDrive\Desktop\Courses\AIP444\GitHub\AIP444-Seneca\labs\lab-07\docs\module.md
+-BREADCRUMB: Modules: `node:module` API > Customization Hooks > Synchronous customization hooks > Registration of synchronous customization hooks > Registering hooks before application code runs programmatically
+-HEADING: Registering hooks before application code runs programmatically
+-DOCUMENT: Modules: `node:module` API > Customization Hooks > Synchronous customization hooks > Registration of synchronous customization hooks > Registering hooks before application code runs programmatically
+
+Alternatively, `registerHooks()` can be called from the entry point.
+
+If the entry point needs to load other modules and the loading process needs to be
+customized, load them using either `require()` or dynamic `import()` after the hooks
+are registered. Do not use static `import` statements to load modules that need to be
+customized in the same module that registers the hooks, because static `import` statements
+are evaluated before any code in the importer module is run, including the call to
+`registerHooks()`, regardless of where the static `import` statements appear in the importer
+module.
+
+```mjs
+import { registerHooks } from &apos;node:module&apos;;
+
+registerHooks({ /* implementation of synchronous hooks */ });
+
+// If loaded using static import, the hooks would not be applied when loading
+// my-app.mjs, because statically imported modules are all executed before its
+// importer regardless of where the static import appears.
+// import &apos;./my-app.mjs&apos;;
+
+// my-app.mjs must be loaded dynamically to ensure the hooks are applied.
+await import(&apos;./my-app.mjs&apos;);
+```
+
+```cjs
+const { registerHooks } = require(&apos;node:module&apos;);
+
+registerHooks({ /* implementation of synchronous hooks */ });
+
+import(&apos;./my-app.mjs&apos;);
+// Or, if my-app.mjs does not have top-level await or it&apos;s a CommonJS module,
+// require() can also be used:
+// require(&apos;./my-app.mjs&apos;);
+```
+
+
+CONVERTING DOCUMENT TO XML...
+
+
+EXTRACTING INFO IN RESULT #4: for XML.
+
+-SOURCE: C:\Users\camac\OneDrive\Desktop\Courses\AIP444\GitHub\AIP444-Seneca\labs\lab-07\docs\module.md
+-BREADCRUMB: Modules: `node:module` API > Customization Hooks > Examples > Import maps
+-HEADING: Import maps
+-DOCUMENT: Modules: `node:module` API > Customization Hooks > Examples > Import maps
+
+The previous two examples defined `load` hooks. This is an example of a
+`resolve` hook. This hooks module reads an `import-map.json` file that defines
+which specifiers to override to other URLs (this is a very simplistic
+implementation of a small subset of the &quot;import maps&quot; specification).
+
+
+CONVERTING DOCUMENT TO XML...
+
+
+EXTRACTING INFO IN RESULT #5: for XML.
+
+-SOURCE: C:\Users\camac\OneDrive\Desktop\Courses\AIP444\GitHub\AIP444-Seneca\labs\lab-07\docs\module.md
+-BREADCRUMB: Modules: `node:module` API > Customization Hooks > Examples > Transpilation
+-HEADING: Transpilation
+-DOCUMENT: Modules: `node:module` API > Customization Hooks > Examples > Transpilation
+
+Sources that are in formats Node.js doesn&apos;t understand can be converted into
+JavaScript using the [`load` hook][load hook].
+
+This is less performant than transpiling source files before running Node.js;
+transpiler hooks should only be used for development and testing purposes.
+
+
+CONVERTING DOCUMENT TO XML...
+
+
