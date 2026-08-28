@@ -1,3 +1,5 @@
+// query.ts: test retrieval against the collection
+
 import 'dotenv/config';
 import { collection } from './indexer.ts'
 import { QueryResult, type Metadata } from 'chromadb';

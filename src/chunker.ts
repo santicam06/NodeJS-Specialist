@@ -1,4 +1,5 @@
-// chunker.ts
+// chunker.ts: structure-aware Markdown chunker
+
 export interface Chunk {
   id: string;
   content: string;
@@ -21,7 +22,9 @@ export function chunkMarkdown(text: string, source: string): Chunk[] {
 
   let currentHeading = 'Introduction';
   // We keep a stack of headings to build breadcrumbs (e.g. fs > readFile)
+  // The breadcrumbs provide context about where a chunk occurs in the document
   let breadcrumbs: string[] = [currentHeading];
+  
   let currentContent: string[] = [];
   let inCodeBlock = false;
 

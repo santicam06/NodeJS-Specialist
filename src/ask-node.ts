@@ -1,3 +1,5 @@
+// ask-node.ts: the full RAG CLI application
+
 import { receiveQuery } from "./query.ts";
 import OpenAI from "openai";
 import * as fs from 'fs';

@@ -1,3 +1,5 @@
+// indexer.ts: reads docs/, chunks, and populates Chroma
+
 import { ChromaClient, type EmbeddingFunction } from 'chromadb';
 import {chunkMarkdown} from './chunker.ts'
 
@@ -103,7 +105,7 @@ async function collectMarkdowns() {
                 chunksContents.push(chunk.content)
             });
 
-            // Add embedding arrays of each file to the chroma collection through its custom function
+            // Add embedding arrays of file to the chroma collection through its custom function
             await collection.upsert({
 
                 ids: chunks.map(chunk => chunk.id),
