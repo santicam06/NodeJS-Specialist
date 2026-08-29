@@ -61,8 +61,8 @@ export function chunkMarkdown(text: string, source: string): Chunk[] {
 
       // 2. Update state for new section
       // Index 0 is the complete line of the heading
-      const level = (headingMatch[1] as string).length;
-      const title = (headingMatch[2] as string).trim();
+      const level = (headingMatch[1] as string).length;   // Heading level (e.g. ###)
+      const title = (headingMatch[2] as string).trim();   
 
       currentHeading = title;
 
@@ -70,7 +70,7 @@ export function chunkMarkdown(text: string, source: string): Chunk[] {
       if (level === 1) {
         breadcrumbs = [title];
       } else {
-        // Truncate stack to current level and add new title
+        // Truncate stack to current level and add new title, avoids sibling headers
         breadcrumbs = breadcrumbs.slice(0, level - 1);
         breadcrumbs.push(title);
       }
