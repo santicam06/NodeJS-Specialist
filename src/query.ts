@@ -53,4 +53,4 @@ export async function receiveQuery(query: string = "") : Promise<QueryResult<Met
     }
 }
 
-// TEST: receiveQuery("How do I hash a password?");
+receiveQuery("How do I hash a password?");
