@@ -1,6 +1,11 @@
-// query.ts: test retrieval against the collection
+import * as dotenv from 'dotenv';
+import * as path from 'path';
+import { fileURLToPath } from 'url';
 
-import 'dotenv/config';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
+
 import { collection } from './indexer.ts'
 import { QueryResult, type Metadata } from 'chromadb';
 
@@ -48,9 +53,15 @@ export async function receiveQuery(query: string = "") : Promise<QueryResult<Met
         return results;
     }
     catch (error) {
-        console.error(`An error ocurred receiving the query: ${error}`);
         throw error;
     }
 }
 
-receiveQuery("How do I hash a password?");
+// Only run standalone test query when query.ts is executed directly as a script
+if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {
+    const testQuery = process.argv[2] || "How do I hash a password?";
+    receiveQuery(testQuery).catch((err) => {
+        console.error(`An error occurred receiving the query: ${err}`);
+        process.exit(1);
+    });
+}
