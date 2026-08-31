@@ -1,14 +1,16 @@
 // ask-node.ts: the full RAG CLI application
 
 import { receiveQuery } from "./query.ts";
+import { ensureIndexed } from "./indexer.ts";
 import OpenAI from "openai";
 import * as fs from 'fs';
 import * as path from 'path';
-import 'dotenv/config';
+import * as dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
 const instructPath = path.join(__dirname, 'INSTRUCTIONS.md');
 
 let instructions = fs.readFileSync(instructPath, 'utf-8');
@@ -23,9 +25,6 @@ function escapeXml(value: unknown): string {
 }
 
 function writeXML(source: string = "", breadcrumb: string = "", heading: string = "", docContent: string = "" ) : string {
-
-    console.error("\n\nCONVERTING DOCUMENT TO XML...\n\n")
-
     return (
         `<doc source="${source}" breadcrumb="${breadcrumb}" heading="${heading}">\n${docContent}\n</doc>`
     )
@@ -86,17 +85,16 @@ async function processQuestion(question: string) {
                 docsPack.push(writeXML(source, breadcrumb, heading, document));
             }
 
-            // Pack ready, insert it to LLM's system prompt XML block
+            // Pack ready, to be inserted into LLM's system prompt XML block
             instructions = instructions.replace(
                 /(```XML[\s\S]*?<context>)[\s\S]*?(<\/context>[\s\S]*?```)/,
                 `$1\n${docsPack.join('\n')}\n$2`
             );
-            // Write the updated content back to INSTRUCTIONS.md
+            // Write the updated content back to INSTRUCTIONS.md XML block
             fs.writeFileSync(instructPath, instructions, 'utf-8');
         }
     }
     catch (error) {
-        console.error("An error occurred processing your question: " + error);
         throw error;
     }
 }
@@ -104,6 +102,34 @@ async function processQuestion(question: string) {
 
 async function main() {
 
+    const args = process.argv.slice(2);
+    const isVerbose = args.includes('--verbose');
+
+    const validFlags = ['--verbose'];
+    const invalidFlags = args.filter(arg => arg.startsWith('--') && !validFlags.includes(arg));
+    if (invalidFlags.length > 0) {
+      console.error(`An invalid flag was entered. Correct use: npx tsx src/ask-node.ts "<question>" [--verbose]`);
+      process.exit(1);
+    }
+
+    const originalStderrWrite = process.stderr.write.bind(process.stderr);
+    // Redirect stderr to debug.txt when verbose mode is enabled (suppress terminal output)
+    let debugStream: fs.WriteStream | null = null;
+    if (isVerbose) {
+        const logsDir = path.resolve(process.cwd(), 'logs');
+        if (!fs.existsSync(logsDir)) {
+            fs.mkdirSync(logsDir, { recursive: true });
+        }
+        const debugPath = path.join(logsDir, 'debug.txt');
+        debugStream = fs.createWriteStream(debugPath, { flags: 'w' });
+        process.stderr.write = (chunk: any, encoding?: any, callback?: any) => {
+            debugStream?.write(chunk, encoding);
+            if (callback) callback();
+            return true;
+        };
+    } else {
+        process.stderr.write = () => true;
+    }
     try {
         const { OPENROUTER_API_KEY } = process.env;
         if (!OPENROUTER_API_KEY) {
@@ -115,9 +141,11 @@ async function main() {
           apiKey: OPENROUTER_API_KEY,
         });
 
-        const question = process.argv[2]?.trim();
+        const question = args.filter(a => !a.startsWith('--')).join(' ').trim();
         if (!question) 
-            throw new Error("Missing question. Usage: ts-node ask-node.js \"[question]\"");
+            throw new Error("Missing question. Usage: npx tsx src/ask-node.ts \"[question]\" [--verbose]");
+
+        await ensureIndexed();
 
         await processQuestion(question);
 
@@ -131,9 +159,13 @@ async function main() {
         console.log("\n🤖 Gemini says:\n" + gemini.choices[0]?.message.content);
 
     }
-    catch (error) {
-        console.log(`ask-node says —😕 An error occurred: ${error}`);
-        process.exit(1);
+    catch (error: any) {
+      process.stderr.write = originalStderrWrite;
+      console.error(`\n⚠️  AN ERROR OCCURRED: ${error}`);
+      if (isVerbose && debugStream) {
+            debugStream.end();
+        }
+      process.exit(1);
     }
 }
 
