@@ -13,7 +13,7 @@ services:
       - PERSIST_DIRECTORY=/chroma/chroma # Explicitly points Chroma to the mounted database folder
       - ANONYMIZED_TELEMETRY=FALSE
       
-    restart: unless-stopped
+    restart: unless-stopped              # Restarts chroma if crashes or unexpected exits, except manual stops
 
   # Container 2
   app:
