@@ -98,9 +98,6 @@ OPENROUTER_API_KEY=your_actual_openrouter_api_key_here
 > [!NOTE]
 > On the first execution, Docker will download container images and build the application layer. Subsequent executions will be near-instantaneous as the database is pre-indexed and container images are cached.
 
-> [!IMPORTANT]
-> The first time you run the application it will take about 2 minutes to set up, as Docker needs to initialize all the dependencies and index `docs/`, this will only occur on the first run.
-
 
 ### Run Command
 
@@ -114,7 +111,7 @@ docker compose run --build --rm app "How do I create an HTTPS server in Node.js?
 ```
 
 > [!NOTE]
-> The verbose flag (`--verbose`) writes detailed retrieval traces and chunk scores to `logs/debug.txt` (overridden per run). Use it for engineering and debugging purposes.
+> The **optional** verbose flag (`--verbose`) writes detailed retrieval traces and chunk scores to `logs/debug.txt` (overridden per run). Use it for engineering and debugging purposes.
 
 ---
 
