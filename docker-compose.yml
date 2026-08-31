@@ -7,7 +7,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - chroma_data:/chroma/chroma      # Persistent storage
+      - ./data/chromadb:/chroma/chroma  # Bind mount: maps pre-indexed local DB to container
     environment:
       - IS_PERSISTENT=TRUE              # Embeddings will be stored in disk, not RAM
       - ANONYMIZED_TELEMETRY=FALSE
@@ -27,10 +27,6 @@ services:
       - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
     env_file:
       - .env
-    volumes:
+    volumes:                            # Bind mounts
       - ./docs:/app/docs                # Syncs ./docs dir with container's /app/docs (for any data changes)
       - ./logs:/app/logs                # Mounts logs directory so debug.txt persists on host machine
-
-volumes:
-  chroma_data:  
-    name: nodejs_specialist_chroma_data       # Volume chroma_data declared globally, Docker manages its lifecycle

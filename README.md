@@ -65,13 +65,13 @@ OPENROUTER_API_KEY=your_actual_openrouter_api_key_here
 - `./src/deleteCollection.ts`: Helper script to delete/reset the `node-docs` ChromaDB collection.
 - `./src/INSTRUCTIONS.md`: LLM System prompt template mutated at runtime with retrieved `<doc>` XML elements.
 - `./docs/`: Official Node.js documentation markdown files.
-- `./data/`: Local vector storage and database persistence directory (.gitignored).
+- `./data/chromadb/`: Pre-indexed ChromaDB vector database persistence directory, mounted directly into the Chroma container.
 - `./logs/`: Application diagnostic and debug output logs (.gitignored).
 - `./docker-compose.yml`: Multi-container orchestrator managing ChromaDB and the Node.js application.
 - `./Dockerfile`: Production container definition for the Node.js application.
 
 > [!TIP]
-> ChromaDB stores vector embeddings in a persistent Docker volume (`nodejs_specialist_chroma_data`). Your indexed documentation persists across container restarts, so indexing only runs once on the first run.
+> ChromaDB persistence is directly bind-mounted from `./data/chromadb` into the container. The database comes pre-indexed out of the box, allowing instant queries without waiting for cold indexing on first startup.
 
 ---
 
@@ -80,7 +80,7 @@ OPENROUTER_API_KEY=your_actual_openrouter_api_key_here
 - **Missing API Key**: Ensure `OPENROUTER_API_KEY` is correctly set in your `.env` file at the repository root.
 - **Docker Daemon Not Running**: On local setups, ensure Docker Desktop is open and active before running commands. On Codespaces, Docker runs **automatically**.
 - **ChromaDB Connection**: If ChromaDB fails to connect, verify Docker Compose is running. The `app` service automatically resolves ChromaDB at `http://chromadb:8000`.
-- **First Run Delay**: On your first execution, the assistant automatically indexes all documentation files in `docs/` into ChromaDB. Subsequent queries will be near-instantaneous.
+- **Automatic Verification**: On startup, the assistant automatically verifies the pre-indexed database. If any new markdown documents are added to `docs/`, running `docker compose run --rm app npx tsx src/indexer.ts` will re-index them.
 
 ---
 
@@ -94,8 +94,8 @@ OPENROUTER_API_KEY=your_actual_openrouter_api_key_here
 - `"How do I spawn and manage worker threads with the worker_threads module?"`
 - `"How does stream backpressure work in Node.js?"`
 
-> [!IMPORTANT]
-> The first time you run the application it will take about 1 minute to set up, as Docker needs to initialize all the dependencies, this should only occur on the first run.
+> [!NOTE]
+> On the first execution, Docker will download container images and build the application layer. Subsequent executions will be near-instantaneous as the database is pre-indexed and container images are cached.
 
 ### Run Command
 

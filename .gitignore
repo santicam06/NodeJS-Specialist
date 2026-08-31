@@ -49,11 +49,13 @@ junit.xml
 npm-cache/
 chromatic/
 
-# ChromaDB - local vector DB persistence (already tracked, run `git rm -r --cached chroma_db chromadb` to untrack)
-data/
-chroma_db/
-chromadb/
-chroma.sqlite3
+# ChromaDB - pre-indexed local vector DB persistence
+/chroma.sqlite3
+/chromadb/
+/chroma_db/
+data/*
+!data/chromadb/
+!data/chromadb/**
 
 # Project debug artifact
 debug.txt
