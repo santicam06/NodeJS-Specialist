@@ -95,7 +95,7 @@ OPENROUTER_API_KEY=your_actual_openrouter_api_key_here
 - `"How does stream backpressure work in Node.js?"`
 
 > [!IMPORTANT]
-> The first time you run the application it will take about 1 minute to set up, as Docker needs to initialize all the dependencies, this should only occur on the first run.
+> The first time you run the application it will take about 2 minutes to set up, as Docker needs to initialize all the dependencies and index `docs/`, this will only occur on the first run.
 
 ### Run Command
 
