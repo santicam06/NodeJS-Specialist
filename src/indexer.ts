@@ -12,7 +12,10 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const docs = path.resolve(__dirname, '../docs');
-dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
+
+// Resolve .env from project root
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
+
 
 
 class OpenRouterEmbeddingFunction implements EmbeddingFunction {
@@ -52,15 +55,17 @@ class OpenRouterEmbeddingFunction implements EmbeddingFunction {
             return embeddingsArr;
 
         } catch (error) {
-            console.error(`Embedding API error: ${error}`);
             throw error;
         }  
     }
 }
 
+const chromaHost = process.env.CHROMA_HOST || 'localhost';
+const chromaPort = Number(process.env.CHROMA_PORT) || 8000;
+
 const chroma = new ChromaClient({
-  host: 'localhost',
-  port: 8000,
+  host: chromaHost,
+  port: chromaPort,
 });
 
 const { OPENROUTER_API_KEY } = process.env;
@@ -85,14 +90,14 @@ export const collection = await chroma.getOrCreateCollection({
 
 
 // Push all files chunk packs to collection
-async function collectMarkdowns() {
+export async function collectMarkdowns() {
 
     try {
         const files = fs.readdirSync(docs);
         let i = 0;
         for (const file of files) {
 
-            console.log(`\n\nCOLLECTING FILE #${++i} INFO\n`)
+            console.error(`\n\nCOLLECTING FILE #${++i} INFO\n`)
             const filePath = path.join(docs, file);
             const fileContent = fs.readFileSync(filePath, 'utf-8');
 
@@ -115,12 +120,50 @@ async function collectMarkdowns() {
             });
         }
 
-        console.log("\n\nAll files uploaded to the collection!")
+        console.error("\n\nAll files uploaded to the collection!")
     }
     catch (error) {    
         throw error;
     }
 }
 
-// Commented for running query.ts, if need of re-index collection, uncomment: 
-// collectMarkdowns();
+// Check if collection has documents; if not, automatically index docs/
+export async function ensureIndexed(): Promise<number> {
+    try {
+        const count = await collection.count();
+        if (count === 0) {
+            console.log("📦 ChromaDB collection is empty. Indexing documentation from docs/...");
+            await collectMarkdowns();
+            const updatedCount = await collection.count();
+            console.log(`✅ Indexing complete! (${updatedCount} chunks indexed)\n`);
+            return updatedCount;
+        }
+        return count;
+    } catch (error: any) {
+        if (
+            error?.name === 'ChromaConnectionError' ||
+            error?.message?.includes('Failed to connect') ||
+            error?.code === 'ECONNREFUSED'
+        ) {
+            console.error(`\n❌ Error: Failed to connect to ChromaDB at http://${chromaHost}:${chromaPort}.`);
+            console.error('👉 Make sure your ChromaDB server is running (e.g. `docker run -d -p 8000:8000 chromadb/chroma` or `chroma run`).\n');
+        }
+        throw error;
+    }
+}
+
+// Run indexing if executed directly as a script
+if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {
+    const count = await collection.count();
+    if (count > 0) {
+        console.log(`🗃️ All documentation files were ALREADY indexed (${count} chunks), no need to re-run indexer.`);
+        process.exit(0);
+    }
+
+    ensureIndexed().catch((err) => {
+        console.error("Failed to index markdowns:", err);
+        process.exit(1);
+    });
+}
+
+
