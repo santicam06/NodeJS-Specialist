@@ -146,7 +146,7 @@ export async function ensureIndexed(): Promise<number> {
             error?.code === 'ECONNREFUSED'
         ) {
             console.error(`\n❌ Error: Failed to connect to ChromaDB at http://${chromaHost}:${chromaPort}.`);
-            console.error('👉 Make sure your ChromaDB server is running (e.g. `docker run -d -p 8000:8000 chromadb/chroma` or `chroma run`).\n');
+            console.error('👉 Make sure your ChromaDB server is running (e.g. `docker compose up -d chromadb`).\n');
         }
         throw error;
     }

@@ -10,7 +10,9 @@ services:
       - ./data/chromadb:/chroma/chroma  # Bind mount: maps pre-indexed local DB to container
     environment:
       - IS_PERSISTENT=TRUE              # Embeddings will be stored in disk, not RAM
+      - PERSIST_DIRECTORY=/chroma/chroma # Explicitly points Chroma to the mounted database folder
       - ANONYMIZED_TELEMETRY=FALSE
+      
     restart: unless-stopped
 
   # Container 2
