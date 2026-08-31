@@ -57,6 +57,7 @@ chroma.sqlite3
 
 # Project debug artifact
 debug.txt
+!logs/
 
 # OS
 .DS_Store
