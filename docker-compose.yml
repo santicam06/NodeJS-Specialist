@@ -29,6 +29,7 @@ services:
       - .env
     volumes:
       - ./docs:/app/docs                # Syncs ./docs dir with container's /app/docs (for any data changes)
+      - ./logs:/app/logs                # Mounts logs directory so debug.txt persists on host machine
 
 volumes:
   chroma_data:  
