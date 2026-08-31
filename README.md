@@ -97,12 +97,12 @@ OPENROUTER_API_KEY=your_actual_openrouter_api_key_here
 ### Run Command
 
 ```sh
-docker compose run --rm app "<Your Question>" [--verbose]
+docker compose run --build --rm app "<Your Question>" [--verbose]
 ```
 
 #### Example:
 ```sh
-docker compose run --rm app "How do I create an HTTPS server in Node.js?"
+docker compose run --build --rm app "How do I create an HTTPS server in Node.js?"
 ```
 
 > [!NOTE]
@@ -116,13 +116,13 @@ You can run other individual scripts inside the Docker environment for isolated 
 
 - **Test Retrieval Only**:
   ```sh
-  docker compose run --rm app npx tsx src/query.ts "How do I hash a password?"
+  docker compose run --build --rm app npx tsx src/query.ts "How do I hash a password?"
   ```
 - **Force Re-index Documentation**:
   ```sh
-  docker compose run --rm app npx tsx src/indexer.ts
+  docker compose run --build --rm app npx tsx src/indexer.ts
   ```
 - **Reset ChromaDB Collection**:
   ```sh
-  docker compose run --rm app npx tsx src/deleteCollection.ts
+  docker compose run --build --rm app npx tsx src/deleteCollection.ts
   ```
