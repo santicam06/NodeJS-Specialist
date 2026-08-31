@@ -110,7 +110,7 @@ export async function collectMarkdowns() {
                 chunksContents.push(chunk.content)
             });
 
-            // Add embedding arrays of file to the chroma collection through its custom function
+            // Add embedding arrays (vectors) of file to the chroma collection through its custom function
             await collection.upsert({
 
                 ids: chunks.map(chunk => chunk.id),

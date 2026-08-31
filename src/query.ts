@@ -43,9 +43,10 @@ export async function receiveQuery(query: string = "") : Promise<QueryResult<Met
                 const metadata = results.metadatas?.[0]?.[i];
                 if (metadata !== undefined) console.error(`-METADATA: ${JSON.stringify(metadata)}`);
 
-                const sim = results.distances?.[0]?.[i];
-                if (typeof sim === 'number') {
-                    console.error(`-COSINE SIMILARITY: ${sim}\n\n`);
+                const distance = results.distances?.[0]?.[i];
+                if (typeof distance === 'number') {
+                    const cossimilarity = 1 - distance;
+                    console.error(`-COSINE SIMILARITY: ${cossimilarity.toFixed(4)} (Distance: ${distance.toFixed(4)})\n\n`);
                 }
             }
         }

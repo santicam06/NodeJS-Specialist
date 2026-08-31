@@ -94,8 +94,13 @@ OPENROUTER_API_KEY=your_actual_openrouter_api_key_here
 - `"How do I spawn and manage worker threads with the worker_threads module?"`
 - `"How does stream backpressure work in Node.js?"`
 
+<<<<<<< HEAD
 > [!NOTE]
 > On the first execution, Docker will download container images and build the application layer. Subsequent executions will be near-instantaneous as the database is pre-indexed and container images are cached.
+=======
+> [!IMPORTANT]
+> The first time you run the application it will take about 2 minutes to set up, as Docker needs to initialize all the dependencies and index `docs/`, this will only occur on the first run.
+>>>>>>> 1c6d817e28ed6b33ccccc7725ad7c1d8ce0ab55a
 
 ### Run Command
 
