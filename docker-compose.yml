@@ -1,0 +1,35 @@
+services:
+
+  # Container 1
+  chromadb:
+    image: chromadb/chroma:latest       # Official, pre-packaged ChromaDB image
+    container_name: chromadb
+    ports:
+      - "8000:8000"
+    volumes:
+      - chroma_data:/chroma/chroma      # Persistent storage
+    environment:
+      - IS_PERSISTENT=TRUE              # Embeddings will be stored in disk, not RAM
+      - ANONYMIZED_TELEMETRY=FALSE
+    restart: unless-stopped
+
+  # Container 2
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ask-node-app
+    depends_on:
+      - chromadb                        # Ensures starting DB before running Node app
+    environment:
+      - CHROMA_HOST=chromadb
+      - CHROMA_PORT=8000
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+    env_file:
+      - .env
+    volumes:
+      - ./docs:/app/docs                # Syncs ./docs dir with container's /app/docs (for any data changes)
+
+volumes:
+  chroma_data:  
+    name: nodejs_specialist_chroma_data       # Volume chroma_data declared globally, Docker manages its lifecycle

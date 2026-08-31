@@ -1,0 +1,13 @@
+node_modules
+npm-debug.log
+.git
+.gitignore
+.env
+data
+logs
+chroma_db
+chromadb
+debug.txt
+dist
+.vscode
+.idea
