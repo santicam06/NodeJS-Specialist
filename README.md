@@ -102,18 +102,18 @@ OPENROUTER_API_KEY=your_actual_openrouter_api_key_here
 ### Run Command
 
 ```sh
-npm run node-specialist "<Your Question>"
+npm run nodejs-specialist "<Your Question>"
 ```
 
-*Or with the `--verbose` flag (use `--` so npm forwards the flag to the container):*
+*Or with the `--verbose` flag (PREPEND `--` before the question so npm forwards the flag to the container):*
 
 ```sh
-npm run node-specialist -- "<Your Question>" --verbose
+npm run nodejs-specialist -- "<Your Question>" --verbose
 ```
 
 #### Example:
 ```sh
-npm run node-specialist "How do I create an HTTPS server in Node.js?"
+npm run nodejs-specialist "How do I create an HTTPS server in Node.js?"
 ```
 
 > [!NOTE]
