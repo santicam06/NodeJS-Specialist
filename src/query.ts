@@ -28,14 +28,14 @@ export async function receiveQuery(query: string = "") : Promise<QueryResult<Met
             nResults: 5 
         });
 
-        console.error(`TOTAL RESULTS FOUND FOR QUESTION: ${results.ids[0]?.length}\n\n`);
+        console.error(`TOTAL RESULTS FOUND FOR QUESTION: ${results.ids[0]?.length}`);
 
         // Print info for each result of the top 5
         if (results) {
             const count = results.ids?.[0]?.length ?? 0
 
             for (let i = 0; i < count; i++) {
-                console.error(`Result #${i + 1}:\n`);
+                console.error(`\n\nResult #${i + 1}:\n`);
 
                 const id = results.ids?.[0]?.[i];
                 if (id !== undefined) console.error(`-ID: ${id}`);
@@ -46,7 +46,7 @@ export async function receiveQuery(query: string = "") : Promise<QueryResult<Met
                 const distance = results.distances?.[0]?.[i];
                 if (typeof distance === 'number') {
                     const cossimilarity = 1 - distance;
-                    console.error(`-COSINE SIMILARITY: ${cossimilarity.toFixed(4)} (Distance: ${distance.toFixed(4)})\n\n`);
+                    console.error(`-COSINE SIMILARITY: ${cossimilarity.toFixed(4)} (Distance: ${distance.toFixed(4)})`);
                 }
             }
         }

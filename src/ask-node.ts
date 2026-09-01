@@ -59,7 +59,7 @@ async function processQuestion(question: string) {
             // For each result extract source, bread, heading and document content
             // Then send those items to the XML sysprompt of the LLM
             for (let i = 0; i < count; i++) {
-                console.error(`EXTRACTING INFO IN RESULT #${i + 1}: for XML.\n`);
+                console.error(`\n\nEXTRACTING INFO IN RESULT #${i + 1}: for XML.\n`);
 
                 let source = (results.metadatas?.[0]?.[i] as any)?.source;
                 if (source != null) source = escapeXml(source);
@@ -80,7 +80,7 @@ async function processQuestion(question: string) {
                 console.error(`-SOURCE: ${source}`);
                 console.error(`-BREADCRUMB: ${breadcrumb.replace(';', '>')}`);
                 console.error(`-HEADING: ${heading}`);
-                console.error(`-DOCUMENT CHUNK:\n    ${document}`);
+                console.error(`-DOCUMENT CHUNK:\n${document.split('\n').map(line => `\t${line}`).join('\n')}`);
 
                 docsPack.push(writeXML(source, breadcrumb, heading, document));
             }
