@@ -80,7 +80,7 @@ async function processQuestion(question: string) {
                 console.error(`-SOURCE: ${source}`);
                 console.error(`-BREADCRUMB: ${breadcrumb.replace(';', '>')}`);
                 console.error(`-HEADING: ${heading}`);
-                console.error(`-DOCUMENT: ${document}`);
+                console.error(`-DOCUMENT CHUNK:\n    ${document}`);
 
                 docsPack.push(writeXML(source, breadcrumb, heading, document));
             }
