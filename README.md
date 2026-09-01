@@ -80,7 +80,7 @@ OPENROUTER_API_KEY=your_actual_openrouter_api_key_here
 - **Missing API Key**: Ensure `OPENROUTER_API_KEY` is correctly set in your `.env` file at the repository root.
 - **Docker Daemon Not Running**: On local setups, ensure Docker Desktop is open and active before running commands. On Codespaces, Docker runs **automatically**.
 - **ChromaDB Connection**: If ChromaDB fails to connect, verify Docker Compose is running. The `app` service automatically resolves ChromaDB at `http://chromadb:8000`.
-- **Automatic Verification**: On startup, the assistant automatically verifies the pre-indexed database. If any new markdown documents are added to `docs/`, running `docker compose run --rm app npx tsx src/indexer.ts` will re-index them.
+- **Automatic Verification**: On startup, the assistant automatically verifies the pre-indexed database. If any new markdown documents are added to `docs/`, running `npx tsx src/indexer.ts` will re-index them.
 
 ---
 
@@ -123,17 +123,17 @@ npm run nodejs-specialist "How do I create an HTTPS server in Node.js?"
 
 ### 🛠️ Developer & Maintenance Commands
 
-You can run other individual scripts inside the Docker environment for isolated tasks:
+You can run individual scripts for isolated development, testing, and maintenance tasks:
 
 - **Test Retrieval Only**:
   ```sh
-  docker compose run --build --rm app npx tsx src/query.ts "How do I hash a password?"
+  npx tsx src/query.ts "How do I hash a password?"
   ```
 - **Force Re-index Documentation**:
   ```sh
-  docker compose run --build --rm app npx tsx src/indexer.ts
+  npx tsx src/indexer.ts
   ```
 - **Reset ChromaDB Collection**:
   ```sh
-  docker compose run --build --rm app npx tsx src/deleteCollection.ts
+  npx tsx src/deleteCollection.ts
   ```
