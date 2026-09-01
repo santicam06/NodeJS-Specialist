@@ -17,7 +17,7 @@ const chroma = new ChromaClient({
 
 async function reset() {
   await chroma.deleteCollection({ name: "node-docs" });
-  console.log("Deleted collection: node-docs");
+  console.log("🗑️ Deleted collection: node-docs");
 }
 
 reset().catch((err) => {
