@@ -98,8 +98,9 @@ export async function collectMarkdowns() {
         for (const file of files) {
 
             console.error(`\n\nCOLLECTING FILE #${++i} INFO\n`)
-            const filePath = path.join(docs, file);
-            const fileContent = fs.readFileSync(filePath, 'utf-8');
+            const fullPath = path.join(docs, file);
+            const filePath = fullPath.split(/[\\/]/).slice(-3).join(path.sep);
+            const fileContent = fs.readFileSync(fullPath, 'utf-8');
 
             // Get chunks from file
             const chunks = chunkMarkdown(fileContent, filePath);
