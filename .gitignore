@@ -56,6 +56,9 @@ chromatic/
 data/*
 !data/chromadb/
 !data/chromadb/**
+*.sqlite3-wal
+*.sqlite3-shm
+*.sqlite3-journal
 
 # Project debug artifact
 debug.txt

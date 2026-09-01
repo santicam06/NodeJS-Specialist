@@ -7,7 +7,11 @@
     "doc": "docs"
   },
   "scripts": {
-    "nodejs-specialist": "docker compose run --build --rm app",
+    "//": "Tells Git to ignore local ChromaDB mutations so queries don't trigger dirty working trees or PR conflicts",
+    "ignore-db": "git update-index --skip-worktree data/chromadb/chroma.sqlite3",
+    
+    "postinstall": "npm run ignore-db",
+    "nodejs-specialist": "npm run ignore-db && docker compose run --build --rm app",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
