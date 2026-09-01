@@ -5,7 +5,7 @@ WORKDIR /app
 
 # Install project dependencies
 COPY package*.json ./
-RUN npm ci --ignore-scripts
+RUN npm ci
 
 # Copy configuration and source files
 COPY tsconfig.json ./
