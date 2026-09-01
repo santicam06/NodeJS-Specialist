@@ -156,7 +156,7 @@ async function main() {
                 ],
         });
 
-        console.log("\n🧑‍💻 Specialist says:\n" + gemini.choices[0]?.message.content);
+        console.log("\n\n\n🧑‍💻 Specialist says:\n\n" + gemini.choices[0]?.message.content);
 
         if (isVerbose && debugStream) {
             await new Promise<void>((resolve) => debugStream!.end(() => resolve()));
