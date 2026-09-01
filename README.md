@@ -129,7 +129,7 @@ You can run individual scripts for isolated development, testing, and maintenanc
   ```sh
   npm run testquery "How do I hash a password?"
   ```
-- **Force Re-index Documentation**:
+- **Force Re-index Documentation (deletes former collection first)**:
   ```sh
   npm run reindex
   ```
