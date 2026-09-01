@@ -1,11 +1,11 @@
-# Install Node.js v20 (LTS) and alpine (lightweight Linux distribution)
-FROM node:20-alpine
+# Install Node.js v22 (LTS) and alpine (lightweight Linux distribution)
+FROM node:22-alpine
 
 WORKDIR /app
 
 # Install project dependencies
 COPY package*.json ./
-RUN npm ci
+RUN npm ci --ignore-scripts
 
 # Copy configuration and source files
 COPY tsconfig.json ./
