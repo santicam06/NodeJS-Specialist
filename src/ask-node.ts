@@ -165,7 +165,7 @@ async function main() {
     }
     catch (error: any) {
       process.stderr.write = originalStderrWrite;
-      console.error(`\n⚠️  AN ERROR OCCURRED: ${error}`);
+      console.error(`\n⚠️ AN ERROR OCCURRED: ${error}`);
       if (isVerbose && debugStream) {
             debugStream.end();
         }
