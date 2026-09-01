@@ -10,6 +10,9 @@
     "//": "Tells Git to ignore local ChromaDB mutations so queries don't trigger dirty working trees or PR conflicts",
     "ignore-db": "git update-index --skip-worktree data/chromadb/chroma.sqlite3",
     "nodejs-specialist": "npm run ignore-db && docker compose run --build --rm app",
+    "reindex": "npx tsx src/deleteCollection.ts && npx tsx src/indexer.ts",
+    "deletecol": "npx tsx src/deleteCollection.ts",
+    "testquery": "npx tsx src/query.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
