@@ -20,12 +20,13 @@ Before running the application, follow these steps:
   - Create a **GitHub Codespace** directly from this repository in your browser.
   - Docker and Docker Compose are pre-installed and running out-of-the-box. No software installations required.
 
-- **Approach 2: Local Machine (Docker Desktop)**:
+- **Approach 2: Local Machine (Docker Desktop & Node.js)**:
   - Clone this repository locally:
     ```sh
     git clone https://github.com/santicam06/NodeJS-Specialist.git
     ```
   - Open the repository folder in your code editor (e.g. Visual Studio Code).
+  - Ensure **[Node.js](https://nodejs.org/)** (v20 or v22 LTS) is installed on your machine to execute the CLI commands.
   - Ensure **[Docker Desktop](https://www.docker.com/products/docker-desktop/)** is installed and **running** on your machine (Windows, macOS, or Linux).
 
 > [!IMPORTANT]
@@ -99,7 +100,7 @@ OPENROUTER_API_KEY=your_actual_openrouter_api_key_here
 > On the first execution, Docker will download container images and build the application layer. Subsequent executions will be near-instantaneous as the database is pre-indexed and container images are cached.
 
 
-### Run Command
+### Run Command (Terminal)
 
 ```sh
 npm run nodejs-specialist "<Your Question>"
