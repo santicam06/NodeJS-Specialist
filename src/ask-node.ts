@@ -82,7 +82,7 @@ async function processQuestion(question: string) {
                 console.error(`-HEADING: ${heading}`);
                 console.error(`-DOCUMENT CHUNK:\n${document.split('\n').map(line => `\t${line}`).join('\n')}`);
 
-                docsPack.push(writeXML(source, breadcrumb, heading, document));
+                docsPack.push( `\n\n ### SOURCE ${i + 1} \n ${writeXML(source, breadcrumb, heading, document)} `);
             }
 
             // Pack ready, to be inserted into LLM's system prompt XML block
