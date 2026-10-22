@@ -26,7 +26,7 @@ function escapeXml(value: unknown): string {
 
 function writeXML(source: string = "", breadcrumb: string = "", heading: string = "", docContent: string = "" ) : string {
     return (
-        `<doc source="${source}" breadcrumb="${breadcrumb}" heading="${heading}">\n${docContent}\n</doc>`
+        `<doc source="${source}" breadcrumb="${breadcrumb}" heading="${heading}">\n\n${docContent}\n</doc>`
     )
 }
 
@@ -82,13 +82,13 @@ async function processQuestion(question: string) {
                 console.error(`-HEADING: ${heading}`);
                 console.error(`-DOCUMENT CHUNK:\n${document.split('\n').map(line => `\t${line}`).join('\n')}`);
 
-                docsPack.push( `\n\n ### SOURCE ${i + 1} \n ${writeXML(source, breadcrumb, heading, document)} `);
+                docsPack.push(`\n### SOURCE ${i + 1}\n\n${writeXML(source, breadcrumb, heading, document)}`);
             }
 
             // Pack ready, to be inserted into LLM's system prompt XML block
             instructions = instructions.replace(
-                /(```XML[\s\S]*?<context>)[\s\S]*?(<\/context>[\s\S]*?```)/,
-                `$1\n${docsPack.join('\n')}\n$2`
+                /(<context>)[\s\S]*?(<\/context>)/,
+                `$1\n${docsPack.join('\n')}\n\n$2`
             );
             // Write the updated content back to INSTRUCTIONS.md XML block
             fs.writeFileSync(instructPath, instructions, 'utf-8');

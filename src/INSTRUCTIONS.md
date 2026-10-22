@@ -11,23 +11,22 @@ It is very important to answer the user's question directly, this means that if 
 
 ## The following XML block contains the documentation for your use:
 
-```XML
-
+<context>
 
 ### SOURCE 1
 
-<context>
 <doc source="C:\Users\camac\OneDrive\Desktop\Courses\AIP444\GitHub\AIP444-Seneca\labs\lab-07\docs\esm.md" breadcrumb="Modules: ECMAScript modules > Loaders" heading="Loaders">
+
 Modules: ECMAScript modules > Loaders
 
 The former Loaders documentation is now at
 [Modules: Customization hooks][Module customization hooks].
 </doc>
 
-
 ### SOURCE 2
 
 <doc source="C:\Users\camac\OneDrive\Desktop\Courses\AIP444\GitHub\AIP444-Seneca\labs\lab-07\docs\module.md" breadcrumb="Modules: `node:module` API > Customization Hooks > Synchronous customization hooks > Synchronous `load(url, context, nextLoad)`" heading="Synchronous `load(url, context, nextLoad)`">
+
 Modules: `node:module` API > Customization Hooks > Synchronous customization hooks > Synchronous `load(url, context, nextLoad)`
 
 * `url` {string} The URL returned by the `resolve` chain
@@ -93,6 +92,7 @@ source to a supported one (see [Examples](#examples) below).
 ### SOURCE 3
 
 <doc source="C:\Users\camac\OneDrive\Desktop\Courses\AIP444\GitHub\AIP444-Seneca\labs\lab-07\docs\module.md" breadcrumb="Modules: `node:module` API > Customization Hooks > Synchronous customization hooks > Registration of synchronous customization hooks > Registering hooks before application code runs programmatically" heading="Registering hooks before application code runs programmatically">
+
 Modules: `node:module` API > Customization Hooks > Synchronous customization hooks > Registration of synchronous customization hooks > Registering hooks before application code runs programmatically
 
 Alternatively, `registerHooks()` can be called from the entry point.
@@ -135,6 +135,7 @@ import(&apos;./my-app.mjs&apos;);
 ### SOURCE 4
 
 <doc source="C:\Users\camac\OneDrive\Desktop\Courses\AIP444\GitHub\AIP444-Seneca\labs\lab-07\docs\module.md" breadcrumb="Modules: `node:module` API > Customization Hooks > Examples > Import maps" heading="Import maps">
+
 Modules: `node:module` API > Customization Hooks > Examples > Import maps
 
 The previous two examples defined `load` hooks. This is an example of a
@@ -143,10 +144,10 @@ which specifiers to override to other URLs (this is a very simplistic
 implementation of a small subset of the &quot;import maps&quot; specification).
 </doc>
 
-
 ### SOURCE 5
 
 <doc source="C:\Users\camac\OneDrive\Desktop\Courses\AIP444\GitHub\AIP444-Seneca\labs\lab-07\docs\module.md" breadcrumb="Modules: `node:module` API > Customization Hooks > Examples > Transpilation" heading="Transpilation">
+
 Modules: `node:module` API > Customization Hooks > Examples > Transpilation
 
 Sources that are in formats Node.js doesn&apos;t understand can be converted into
@@ -155,11 +156,10 @@ JavaScript using the [`load` hook][load hook].
 This is less performant than transpiling source files before running Node.js;
 transpiler hooks should only be used for development and testing purposes.
 </doc>
+
 </context>
-```
 
 ## End of documentation
----
 
 ## Instructions:
 1. Answer the user's question based ONLY on the provided context. VERY IMPORTANT.
